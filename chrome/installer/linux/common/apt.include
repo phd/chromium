@@ -125,6 +125,10 @@ install_deb822_sources() {
     # The new .sources file already exists. Recreate it in case it got disabled
     # during a dist upgrade.
     SHOULD_INSTALL_SOURCES=1
+    # Unless it's empty (its content was deliberately removed by the user)
+    if [ ! -s "$SOURCES_FILE" ]; then
+      SHOULD_INSTALL_SOURCES=0
+    fi
   elif [ -f "$LEGACY_LIST" ]; then
     # Migrate a legacy .list file to the new .sources format.
     if grep -E -q "^[[:space:]]*$REPOCONFIGREGEX" "$LEGACY_LIST"; then
